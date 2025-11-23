@@ -102,13 +102,16 @@ async def transcribe_audio(file: UploadFile = File(...)):
             result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             duration = float(result.stdout)
             
+            # Get file extension
+            file_ext = os.path.splitext(temp_filename)[1]
+            
             chunk_length = 10 * 60 # 10 minutes in seconds
             num_chunks = math.ceil(duration / chunk_length)
             
             full_transcript = []
             
             for i in range(num_chunks):
-                chunk_filename = f"temp_chunk_{i}.mp3"
+                chunk_filename = f"temp_chunk_{i}{file_ext}"
                 start_time = i * chunk_length
                 print(f"Processing chunk {i+1}/{num_chunks}...")
                 
