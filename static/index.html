@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Transcriber | AI Powered</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-blobs">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+      <header>
+        <h1>Voice Transcriber</h1>
+        <p>AIがあなたの声を文字にします</p>
+      </header>
+
+      <div class="glass-card upload-area" id="drop-zone">
+        <div class="icon-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </div>
+        <h3>音声ファイルをここにドロップ</h3>
+        <p>または</p>
+        <label for="file-input" class="btn-primary">ファイルを選択</label>
+        <input type="file" id="file-input" accept="audio/*" hidden />
+        <p class="file-info" id="file-info"></p>
+        
+      </div>
+
+      <div class="glass-card result-area hidden" id="result-area">
+        <div class="result-header">
+          <h2>文字起こし結果</h2>
+          <div class="action-buttons">
+            <button class="btn-icon" id="download-btn" title="テキストをダウンロード">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+            <button class="btn-icon" id="copy-btn" title="コピー">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                >
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                />
+                </svg>
+            </button>
+          </div>
+        </div>
+        <div class="text-content" id="transcription-text">
+          <!-- Result will appear here -->
+        </div>
+      </div>
+
+      <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>AIが音声を解析中...</p>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
