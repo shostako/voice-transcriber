@@ -86,23 +86,43 @@ async def transcribe_audio(file: UploadFile = File(...)):
         else:
             # Split and process
             print(f"File size {file_size} exceeds limit. Splitting...")
-            from pydub import AudioSegment
             
-            # Load audio
-            audio = AudioSegment.from_file(temp_filename)
+            # Use ffmpeg to split directly without loading into memory
+            import subprocess
+            import math
             
-            # Split into 10 minute chunks (approx 10MB for mp3)
-            chunk_length_ms = 10 * 60 * 1000
-            chunks = [audio[i:i + chunk_length_ms] for i in range(0, len(audio), chunk_length_ms)]
+            # Get duration first
+            cmd = [
+                "ffprobe", 
+                "-v", "error", 
+                "-show_entries", "format=duration", 
+                "-of", "default=noprint_wrappers=1:nokey=1", 
+                temp_filename
+            ]
+            result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            duration = float(result.stdout)
+            
+            chunk_length = 10 * 60 # 10 minutes in seconds
+            num_chunks = math.ceil(duration / chunk_length)
             
             full_transcript = []
             
-            for i, chunk in enumerate(chunks):
+            for i in range(num_chunks):
                 chunk_filename = f"temp_chunk_{i}.mp3"
-                print(f"Processing chunk {i+1}/{len(chunks)}...")
+                start_time = i * chunk_length
+                print(f"Processing chunk {i+1}/{num_chunks}...")
                 
-                # Export chunk
-                chunk.export(chunk_filename, format="mp3")
+                # Split using ffmpeg
+                split_cmd = [
+                    "ffmpeg",
+                    "-y", # Overwrite output
+                    "-i", temp_filename,
+                    "-ss", str(start_time),
+                    "-t", str(chunk_length),
+                    "-acodec", "copy", # Copy stream (fast & low memory)
+                    chunk_filename
+                ]
+                subprocess.run(split_cmd, check=True)
                 
                 try:
                     with open(chunk_filename, "rb") as audio_file:
