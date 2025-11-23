@@ -1,4 +1,4 @@
-const CACHE_NAME = 'voice-transcriber-v1';
+const CACHE_NAME = 'voice-transcriber-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -8,10 +8,26 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting(); // Force new SW to activate immediately
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(ASSETS))
   );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+  return self.clients.claim(); // Take control of all pages immediately
 });
 
 self.addEventListener('fetch', (event) => {
