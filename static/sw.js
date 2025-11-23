@@ -20,21 +20,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network first for API calls, Cache first for static assets
+  // Bypass Service Worker for API calls (let browser handle it directly)
+  // This avoids timeouts and issues with large file uploads in the SW
   if (event.request.url.includes('/transcribe')) {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-            // Optional: return a fallback response for offline API calls
-            return new Response(JSON.stringify({ error: "Offline" }), { 
-                headers: { 'Content-Type': 'application/json' } 
-            });
-        })
-    );
-  } else {
-    event.respondWith(
-      caches.match(event.request)
-        .then((response) => response || fetch(event.request))
-    );
+    return;
   }
+
+  // Cache first for static assets
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => response || fetch(event.request))
+  );
 });
