@@ -48,8 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Download button
     downloadBtn.addEventListener('click', () => {
         const text = transcriptionText.innerText;
-        // Add BOM for UTF-8 compatibility
-        const blob = new Blob(['\uFEFF', text], { type: 'text/plain;charset=utf-8' });
+        const blob = new Blob([text], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
