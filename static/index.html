@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Voice Transcriber | AI Powered</title>
+    <title>音声文字起こし | AI Powered</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,14 +14,15 @@
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#1a1a2e" />
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
             .then((registration) => {
-              console.log('ServiceWorker registration successful');
+              console.log("ServiceWorker registration successful");
             })
             .catch((err) => {
-              console.log('ServiceWorker registration failed: ', err);
+              console.log("ServiceWorker registration failed: ", err);
             });
         });
       }
@@ -36,7 +37,7 @@
 
     <main class="container">
       <header>
-        <h1>Voice Transcriber</h1>
+        <h1>音声文字起こし</h1>
         <p>AIがあなたの声を文字にします</p>
       </header>
 
@@ -63,18 +64,18 @@
         <label for="file-input" class="btn-primary">ファイルを選択</label>
         <input type="file" id="file-input" accept="audio/*" hidden />
         <p class="file-info" id="file-info"></p>
-        
       </div>
 
       <div class="glass-card result-area hidden" id="result-area">
         <div class="result-header">
           <h2>文字起こし結果</h2>
           <div class="action-buttons">
-            <button class="btn-icon" id="download-btn" title="テキストをダウンロード">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </button>
-            <button class="btn-icon" id="copy-btn" title="コピー">
-                <svg
+            <button
+              class="btn-icon"
+              id="download-btn"
+              title="テキストをダウンロード"
+            >
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -84,12 +85,29 @@
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                >
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </button>
+            <button class="btn-icon" id="copy-btn" title="コピー">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                 <path
-                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
                 />
-                </svg>
+              </svg>
             </button>
           </div>
         </div>

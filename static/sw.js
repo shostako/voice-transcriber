@@ -1,4 +1,4 @@
-const CACHE_NAME = 'voice-transcriber-v2';
+const CACHE_NAME = 'voice-transcriber-v3';
 const ASSETS = [
   '/',
   '/index.html',
